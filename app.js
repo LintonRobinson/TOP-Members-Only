@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const session = require("express-session");
 const passport = require("passport");
+const authRouter = require("./routes/authRouter.js");
 
 const errorHandlers = require("./middleware/errors.js");
 
@@ -21,6 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 // Override HTML form methods
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
+
+app.use(authRouter);
 
 // No Path Found Error Fallback
 app.use(errorHandlers.notFound);
