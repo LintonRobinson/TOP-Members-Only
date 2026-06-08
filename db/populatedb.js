@@ -20,12 +20,12 @@ user INTEGER REFRENCES users(id)
 
 // User - id , username (email) , password
 
-function main() {
+async function main() {
   const client = new Client({ connectionString: "postgresql://lintonrobinson@localhost:5432/top_users" });
-  client.connect();
-  client.query(SQL);
-  client.end();
-  console.log("Done seeding");
+  await client.connect();
+  await client.query(SQL);
+  await client.end();
+  await console.log("Done seeding");
 }
 
 main();
