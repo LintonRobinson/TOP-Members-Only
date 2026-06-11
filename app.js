@@ -47,6 +47,7 @@ passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       const user = await db.getUserByUsername(username);
+
       if (!user) {
         return done(null, false, { message: "user does not exist" });
       }
@@ -65,6 +66,7 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
+  console.log("serialize");
   done(null, user.id);
 });
 
