@@ -1,0 +1,12 @@
+<% if (locals.authMessage) { %>
+    <% if (authMessage==="Successful log in!" ) { %>
+        <div>
+            <span>Successful log in! Welcome!</span>
+            <a href="/">Create a message</a>
+        </div>
+        <% } else { %>
+            <span>
+                <%=authMessage %>
+            </span>
+            <% } %>
+                <%}%>

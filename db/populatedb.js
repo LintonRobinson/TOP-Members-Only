@@ -7,7 +7,8 @@ username TEXT UNIQUE,
 password TEXT,
 first_name TEXT,
 last_name TEXT, 
-admin BOOLEAN DEFAULT false
+admin BOOLEAN DEFAULT false,
+is_club_member BOOLEAN DEFAULT false
 );
 
 

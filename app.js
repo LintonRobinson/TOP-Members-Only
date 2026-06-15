@@ -7,6 +7,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 
 const authRouter = require("./routes/authRouter.js");
+const secretClubRouter = require("./routes/secretClubRouter.js");
+const messageRouter = require("./routes/messageRouter.js");
 
 const errorHandlers = require("./middleware/errors.js");
 
@@ -49,15 +51,14 @@ passport.use(
       const user = await db.getUserByUsername(username);
 
       if (!user) {
-        return done(null, false, { message: "user does not exist" });
+        return done(null, false, { message: "User does not exist" });
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
-        return done(null, false, { message: "invalid password" });
+        return done(null, false, { message: "Invalid password" });
       }
-
       return done(null, user);
     } catch (error) {
       return done(error);
@@ -66,7 +67,6 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log("serialize");
   done(null, user.id);
 });
 
@@ -80,6 +80,10 @@ passport.deserializeUser(async (userId, done) => {
 });
 
 app.use(authRouter);
+
+app.use(secretClubRouter);
+
+app.use(messageRouter);
 
 // No Path Found Error Fallback
 app.use(errorHandlers.notFound);

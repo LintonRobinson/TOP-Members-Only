@@ -11,20 +11,27 @@ authRouter.get("/sign-up", (req, res) => {
 
 authRouter.get("/log-in", (req, res) => {
   if (req.session.messages) {
-    res.render("log-in", { authError: req.session.messages[0] });
+    res.render("log-in", { authMessage: req.session.messages[0] });
     delete req.session.messages;
     return;
   }
+  console.dir(req.session, { depth: null });
   res.render("log-in");
 });
 
 authRouter.post(
   "/log-in",
   passport.authenticate("local", {
-    successRedirect: "/",
     failureRedirect: "/log-in",
     failureMessage: true,
   }),
+  (req, res) => {
+    if (!req.session.messages?.[0]) {
+      req.session.messages = [];
+      req.session.messages[0] = "Successful log in!";
+    }
+    res.redirect("/log-in");
+  },
 );
 
 module.exports = authRouter;
