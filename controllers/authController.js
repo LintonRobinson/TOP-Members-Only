@@ -2,19 +2,6 @@ const db = require("../db/queries.js");
 const { body, validationResult, matchedData } = require("express-validator");
 const bcrypt = require("bcryptjs");
 
-const validateUser = [
-  body("first_name").trim().escape(),
-  body("last_name").trim().escape(),
-  body("username").trim().isEmail().normalizeEmail().withMessage("Invalid email"),
-  body("password").trim(),
-  body("confirmedPassword")
-    .trim()
-    .custom((value, { req }) => {
-      return value === req.body.password;
-    })
-    .withMessage("Passwords do not match"),
-];
-
 async function signUpUser(req, res, next) {
   try {
     const errors = validationResult(req);
@@ -35,4 +22,4 @@ async function signUpUser(req, res, next) {
   }
 }
 
-module.exports = { validateUser, signUpUser };
+module.exports = { signUpUser };

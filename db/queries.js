@@ -18,4 +18,8 @@ async function getUserById(userId) {
   return rows[0];
 }
 
-module.exports = { insertUser, updateUserClubMemberStatus, getUserByUsername, getUserById };
+async function createNewMessage(messageContents, userId) {
+  await pool.query("INSERT INTO messages (message_title, message, user_id) VALUES ($1,$2,$3)", [messageContents.messageTitle, messageContents.message, userId]);
+}
+
+module.exports = { insertUser, updateUserClubMemberStatus, getUserByUsername, getUserById, createNewMessage };

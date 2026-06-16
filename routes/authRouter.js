@@ -2,8 +2,9 @@ const { Router } = require("express");
 const authRouter = Router();
 const authController = require("../controllers/authController");
 const passport = require("passport");
+const { validateUser } = require("../middleware/validators/authValidator.js");
 
-authRouter.post("/sign-up", authController.validateUser, authController.signUpUser);
+authRouter.post("/sign-up", validateUser, authController.signUpUser);
 
 authRouter.get("/sign-up", (req, res) => {
   res.render("sign-up");

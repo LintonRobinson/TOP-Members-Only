@@ -18,20 +18,17 @@
 <body>
     <main>
         <h1>Create New Message</h1>
-        <form action="/c" method="POST">
+        <form action="/create-new-message" method="POST">
             <label>
                 Message Title:
-                <input type="text" name="username" required>
+                <input type="text" name="messageTitle" required>
             </label>
             <label>
                 Message Body:
-                <input type="password" name="password" required>
+                <textarea name="message" id="" required placeholder="Your message goes here."></textarea>
             </label>
-
-
             <button type="submit">Create New Message</button>
         </form>
-        <%- include("partials/auth-message") %>
     </main>
 
 </body>

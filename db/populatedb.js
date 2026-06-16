@@ -14,9 +14,10 @@ is_club_member BOOLEAN DEFAULT false
 
 CREATE TABLE messages (
 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,  
+message_title TEXT,
 message TEXT,
 created_at TIMESTAMPTZ DEFAULT NOW(), 
-user INTEGER REFERENCES users(id)
+user_id INTEGER REFERENCES users(id)
 
 );
 `;
