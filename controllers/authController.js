@@ -11,7 +11,8 @@ async function signUpUser(req, res, next) {
     }
 
     const validatedUser = matchedData(req);
-    console.log("validatedUser", validatedUser);
+    const isAdmin = req.body.admin === "on";
+    validatedUser.admin = isAdmin;
     const hashedPassword = await bcrypt.hash(validatedUser.password, 10);
     delete validatedUser.confirmedPassword;
     validatedUser.password = hashedPassword;

@@ -16,4 +16,15 @@ async function createNewMessage(req, res, next) {
   }
 }
 
-module.exports = { createNewMessage };
+async function getAllMessages(req, res, next) {
+  const allMessages = await db.getAllMessages();
+  res.locals.allMessages = allMessages;
+  next();
+}
+
+async function deleteMessage(req, res) {
+  await db.deleteMessage(req.params.id);
+  res.redirect("/");
+}
+
+module.exports = { createNewMessage, getAllMessages, deleteMessage };

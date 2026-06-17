@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/error-page.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Google Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/styles/sign-up.css">
+    <link rel="icon" type="image/png" href="/assets/">
+    <title>Log In</title>
+</head>
+
+<body>
+    <main>
+        <%- include("partials/navbar") %>
+            <div>
+                <h1>Message Board</h1>
+                <% if (!locals.user){ %>
+                    <p><a href="/sign-up">Sign up</a> or <a href="/log-in">log in</a> to post messages.</p>
+                    <%}%>
+            </div>
+            <div>
+                <%if(locals.messages) { %>
+
+                    <% messages.forEach(function(message) { %>
+                        <div>
+                            <div>
+                                <div>
+                                    <h3>
+                                        <%=message.message_title %>
+                                    </h3>
+                                    <p>
+                                        <%=message.message %>
+                                    </p>
+                                </div>
+                                <div>
+                                    <span>FL</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <span>From:</span>
+                                        <span>
+                                            <% if(locals.user && locals.user?.is_club_member) { %>
+                                                <%=message.user_first_name%>
+                                                    <%} else { %>
+                                                        *****
+                                                        <%}%>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span>Time Posted:</span>
+                                        <% if(locals.user) { %>
+                                            <%=message.created_at%>
+                                                <%} else { %>
+                                                    *****
+                                                    <%}%>
+                                    </div>
+                                </div>
+                                <% if(locals.user.admin) { %>
+                                    <a href="/message/delete/<%=message.id%>">Delete</a>
+                                    <%}%>
+                            </div>
+                        </div>
+                        <% }); %>
+                            <%} else { %>
+                                <span>No messages. Be the first to create one!</span>
+                                <%}%>
+
+            </div>
+
+
+    </main>
+
+</body>
+
+</html>

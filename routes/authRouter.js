@@ -10,15 +10,26 @@ authRouter.get("/sign-up", (req, res) => {
   res.render("sign-up");
 });
 
-authRouter.get("/log-in", (req, res) => {
-  if (req.session.messages) {
-    res.render("log-in", { authMessage: req.session.messages[0] });
-    delete req.session.messages;
-    return;
-  }
-  console.dir(req.session, { depth: null });
-  res.render("log-in");
-});
+authRouter.get(
+  "/log-in",
+  (req, res, next) => {
+    //
+    if (!req.isAuthenticated()) {
+      next();
+    } else {
+      res.redirect("/");
+    }
+  },
+  (req, res) => {
+    if (req.session.messages) {
+      res.render("log-in", { authMessage: req.session.messages[0] });
+      delete req.session.messages;
+      return;
+    }
+
+    res.render("log-in");
+  },
+);
 
 authRouter.post(
   "/log-in",
@@ -27,12 +38,15 @@ authRouter.post(
     failureMessage: true,
   }),
   (req, res) => {
-    if (!req.session.messages?.[0]) {
-      req.session.messages = [];
-      req.session.messages[0] = "Successful log in!";
-    }
-    res.redirect("/log-in");
+    res.render("log-in", { authMessage: "Successful log in!", userFirstName: req.user.first_name });
   },
 );
+
+authRouter.get("/log-out", (req, res, error) => {
+  req.logOut((error) => {
+    if (error) return next(error);
+    res.redirect("/log-in");
+  });
+});
 
 module.exports = authRouter;
