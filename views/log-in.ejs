@@ -4,36 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/error-page.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Google Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/styles/sign-up.css">
-    <link rel="icon" type="image/png" href="/assets/">
+    <link rel="stylesheet" href="/styles/output.css">
+    <link rel="icon" type="image/png" href="/assets/paper-plane.png">
     <title>Log In</title>
 </head>
 
-<body>
-    <main>
-        <h1>Log In</h1>
-        <form action="/log-in" method="POST">
-            <label>
-                Email:
-                <input type="text" name="username" required>
-            </label>
-            <label>
-                Password:
-                <input type="password" name="password" required>
-            </label>
+<body class="h-screen relative bg-neutral-900 text-slate-50">
+    <%- include("partials/navbar") %>
+        <main class="flex flex-col justify-center items-center relative pt-30">
+            <div class="flex flex-col gap-9 bg-zinc-800 p-10 border border-neutral-700 rounded-md w-md">
+                <div class="flex flex-col gap-3">
+                    <h1 class="text-4xl">Welcome Back</h1>
+                    <% if(!locals.userFirstName) {%>
+                        <p class="text-neutral-400">No account yet? <a class="text-cyan-200" href="/sign-up">Sign Up</a>
+                        </p>
+                        <%}%>
 
+                </div>
+                <form class="flex flex-col  text-neutral-400" action="/log-in" method="POST">
+                    <div class="flex flex-col gap-6 pb-8 mb-8 border-b border-neutral-700">
+                        <label class="flex flex-col gap-2">
+                            Email:
+                            <input placeholder="example@email.com" autocomplete="email"
+                                class="bg-black p-1.5 border border-neutral-700 rounded-md focus:border-cyan-200  outline-none transition-all"
+                                type="text" name="username" required>
+                        </label>
+                        <label class="flex flex-col gap-2 ">
+                            Password:
+                            <input
+                                class="bg-black p-1.5 border border-neutral-700 rounded-md focus:border-cyan-200  outline-none transition-all"
+                                type="password" name="password" required autocomplete="current-password"
+                                placeholder="***********">
+                        </label>
+                    </div>
+                    <button class="bg-cyan-200 text-black p-1.5 border border-neutral-700 rounded-md cursor-pointer"
+                        type="submit">Log
+                        In</button>
+                </form>
+                <%- include("partials/auth-message") %>
+            </div>
 
-            <button type="submit">Log In</button>
-        </form>
-        <%- include("partials/auth-message") %>
-    </main>
-
+        </main>
+        <%- include("partials/footer") %>
 </body>
 
 </html>

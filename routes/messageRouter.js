@@ -9,7 +9,7 @@ messageRouter.get("/", messageController.getAllMessages, (req, res) => {
 });
 
 messageRouter.get("/create-new-message", (req, res) => {
-  res.render("create-new-message");
+  res.render("create-new-message", { user: req.user });
 });
 
 messageRouter.post("/create-new-message", validateMessage, messageController.createNewMessage);

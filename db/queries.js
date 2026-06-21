@@ -2,7 +2,6 @@ const pool = require("../db/pool.js");
 
 async function insertUser(user) {
   await pool.query("INSERT INTO users (first_name,last_name,username,password, admin) VALUES ($1,$2,$3,$4,$5)", [user.first_name, user.last_name, user.username, user.password, user.admin]);
-  console.log("user.admin", user.admin);
 }
 
 async function updateUserClubMemberStatus(userId, updatedMembershipStatus) {

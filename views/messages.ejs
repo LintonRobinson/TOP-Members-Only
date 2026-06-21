@@ -4,49 +4,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/error-page.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Google Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="/styles/sign-up.css">
-    <link rel="icon" type="image/png" href="/assets/">
-    <title>Log In</title>
+    <link rel="stylesheet" href="/styles/output.css">
+    <link rel="icon" type="image/png" href="/assets/paper-plane.png">
+    <title>Members Only</title>
 </head>
 
-<body>
-    <main>
-        <%- include("partials/navbar") %>
-            <div>
-                <h1>Message Board</h1>
+<body class="min-h-screen relative bg-neutral-900 text-slate-50">
+    <%- include("partials/navbar") %>
+        <main class="max-w-7xl mx-auto p-12">
+
+            <div class="flex flex-col gap-3 border-b-[0.2px] border-neutral-700 pb-4 mb-6">
+                <h1 class="text-4xl">Message Board</h1>
                 <% if (!locals.user){ %>
-                    <p><a href="/sign-up">Sign up</a> or <a href="/log-in">log in</a> to post messages.</p>
-                    <%}%>
+                    <p><a class="text-cyan-200" href="/sign-up">Sign up</a> or <a class="text-cyan-200"
+                            href="/log-in">log in</a> to post messages.</p>
+                    <%} else if (!locals.user?.is_club_member) { %>
+                        <p>Want to see who posted each message and at what time? <a class="text-cyan-200"
+                                href="/secret-club/join">Join the secret club.</a> </p>
+                        <%}%>
             </div>
-            <div>
+            <div class="flex flex-col gap-10">
                 <%if(locals.messages) { %>
 
                     <% messages.forEach(function(message) { %>
-                        <div>
+                        <div
+                            class="bg-zinc-800 hover:bg-zinc-900 transition-all flex flex-col gap-3 justify-between p-4 border border-neutral-700 rounded-md">
                             <div>
-                                <div>
-                                    <h3>
+                                <div class="pb-4 border-b-[0.2px] border-neutral-700">
+                                    <h3 class="text-2xl font-semibold mb-3">
                                         <%=message.message_title %>
                                     </h3>
-                                    <p>
+                                    <p class="italic">
                                         <%=message.message %>
                                     </p>
                                 </div>
-                                <div>
-                                    <span>FL</span>
-                                </div>
+
                             </div>
                             <div>
-                                <div>
+                                <div class="flex justify-between">
                                     <div>
                                         <span>From:</span>
-                                        <span>
+                                        <span class="italic">
                                             <% if(locals.user && locals.user?.is_club_member) { %>
                                                 <%=message.user_first_name%>
                                                     <%} else { %>
@@ -56,16 +59,21 @@
                                     </div>
                                     <div>
                                         <span>Time Posted:</span>
-                                        <% if(locals.user) { %>
-                                            <%=message.created_at%>
-                                                <%} else { %>
-                                                    *****
-                                                    <%}%>
+                                        <span class="italic">
+                                            <% if(locals.user && locals.user?.is_club_member) { %>
+                                                <%=message.created_at%>
+                                                    <%} else { %>
+                                                        *****
+                                                        <%}%>
+                                        </span>
                                     </div>
                                 </div>
-                                <% if(locals.user.admin) { %>
-                                    <a href="/message/delete/<%=message.id%>">Delete</a>
-                                    <%}%>
+                                <% if(locals.user) { %>
+                                    <% if(locals.user.admin) { %>
+                                        <a class="text-red-400" href="/message/delete/<%=message.id%>">Delete
+                                            Message</a>
+                                        <%}%>
+                                            <%}%>
                             </div>
                         </div>
                         <% }); %>
@@ -76,8 +84,10 @@
             </div>
 
 
-    </main>
+        </main>
+        <%- include("partials/footer") %>
 
 </body>
+
 
 </html>
