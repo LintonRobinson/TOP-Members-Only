@@ -23,7 +23,7 @@ user_id INTEGER REFERENCES users(id)
 `;
 
 async function main() {
-  const client = new Client({ connectionString: "postgresql://lintonrobinson@localhost:5432/top_users" });
+  const client = new Client({ connectionString: process.env.DATABASE_URL });
   await client.connect();
   await client.query(SQL);
   await client.end();
